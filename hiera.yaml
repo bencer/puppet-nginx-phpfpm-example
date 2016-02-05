@@ -1,0 +1,16 @@
+---
+:backends:
+  - yaml
+ 
+:hierarchy:
+  - "nodes/%{::fqdn}"
+  - "%{environment}/%{role}"
+  - "%{role}"
+  - "%{environment}"
+  - common
+ 
+:yaml:
+  :datadir: /etc/puppet/hiera/
+
+:logging:
+  - console
