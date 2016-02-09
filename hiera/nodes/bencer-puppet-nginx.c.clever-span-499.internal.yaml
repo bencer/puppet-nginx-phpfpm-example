@@ -1,15 +1,17 @@
 ---
 roles:
-  - roles::www
+   - roles::www
+
+vdomain: example.com
 
 nginx::config::vhost_purge: true
 nginx::config::confd_purge: true
 
 nginx::nginx_vhosts:
-  'example.com':
+  "%{hiera('vdomain')}":
     ensure: present
     rewrite_www_to_non_www: true
-    www_root: /srv/www/example.com/
+    www_root: "/srv/www/%{hiera('vdomain')}/"
     try_files:
       - '$uri'
       - '$uri/'
@@ -18,9 +20,9 @@ nginx::nginx_vhosts:
 nginx::nginx_locations:
   'php':
     ensure: present
-    vhost: example.com
+    vhost: "%{hiera('vdomain')}"
     location: '~ .php$'
-    www_root: /srv/www/example.com/
+    www_root: "/srv/www/%{hiera('vdomain')}/"
     try_files:
       - '$uri'
       - '/index.php =404'
@@ -28,7 +30,7 @@ nginx::nginx_locations:
       fastcgi_split_path_info: '^(.+\.php)(.*)$'
       fastcgi_pass: 'php'
       fastcgi_index: 'index.php'
-      fastcgi_param SCRIPT_FILENAME: '/srv/www/example.com$fastcgi_script_name'
+      fastcgi_param SCRIPT_FILENAME: "/srv/www/%{hiera('vdomain')}$fastcgi_script_name"
       include: 'fastcgi_params'
       fastcgi_param QUERY_STRING: '$query_string'
       fastcgi_param REQUEST_METHOD: '$request_method'
@@ -46,7 +48,7 @@ nginx::nginx_locations:
     
   'server-status':
     ensure: present
-    vhost: example.com
+    vhost: "%{hiera('vdomain')}"
     location: /server-status
     stub_status: true
     location_cfg_append:
@@ -54,7 +56,7 @@ nginx::nginx_locations:
       allow: 127.0.0.1
       deny: all
 
-serverdensity_agent::plugin::nginx::nginx_status_url: http://example.com/server-status
+serverdensity_agent::plugin::nginx::nginx_status_url: "http://%{hiera('vdomain')}/server-status"
 
 nginx::nginx_upstreams:
   'php':
