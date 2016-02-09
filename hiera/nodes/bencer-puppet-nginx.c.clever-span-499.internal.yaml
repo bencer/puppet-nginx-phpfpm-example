@@ -1,7 +1,6 @@
 ---
 roles:
   - roles::www
-  - roles::php
 
 nginx::config::vhost_purge: true
 nginx::config::confd_purge: true
