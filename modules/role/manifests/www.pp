@@ -1,4 +1,4 @@
-class roles::www {
+class role::www {
   include profiles::nginx
   include profiles::php
   include profiles::serverdensity

@@ -1,2 +1,5 @@
+---
+classes: []
+
 serverdensity_agent::sd_account: bencer
 serverdensity_agent::api_token: XXXXXX

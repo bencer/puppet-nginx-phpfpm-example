@@ -4,9 +4,7 @@
  
 :hierarchy:
   - "nodes/%{::fqdn}"
-  - "%{environment}/%{role}"
-  - "%{role}"
-  - "%{environment}"
+  - "roles/%{::role}"
   - common
  
 :yaml:

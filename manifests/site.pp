@@ -1,3 +1,5 @@
 node default {
-  hiera_include('roles')
+  $role = hiera('role')
+  $classes = hiera('classes')
+  hiera_include('classes')
 }
